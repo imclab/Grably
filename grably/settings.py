@@ -26,7 +26,7 @@ DATABASES = {
         'NAME': 'hackny', #HP                     # Or path to database file if using sqlite3.
         'USER': 'clara',                      # Not used with sqlite3.
         'PASSWORD': 'wu',                  # Not used with sqlite3.
-        'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
+        'HOST': 'localhost',                      # Set to empty string for localhost. Not used with sqlite3.
         'PORT': '',                      # Set to empty string for default. Not used with sqlite3.
     }
 }
@@ -123,7 +123,7 @@ MIDDLEWARE_CLASSES = (
 )
 
 #HP sometimes this needs to be just 'urls'
-ROOT_URLCONF = 'mysite.urls'
+ROOT_URLCONF = 'grably.urls'
 
 TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
@@ -150,7 +150,8 @@ INSTALLED_APPS = (
     # install south with `pip install south` (it comes pre-installed on pythonanywhere)
     # If you're not using a relational database, you can comment this out.
     'south', #HP
-    'mysite.app' #HP
+    'grably.app', #HP
+    'grably.foursq_auth', #HP
 )
 
 # A sample logging configuration. The only tangible logging
