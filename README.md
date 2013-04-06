@@ -1,4 +1,3 @@
-Bubble
+Grably
 ======
-
-Data Visualizer for different startup industries
+Location based task manager with your friends!
