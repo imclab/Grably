@@ -154,7 +154,7 @@ def accept_task(request):
     if request.is_ajax():
         task_id = request.POST['task_id']
         access_token = request.session.get('access_token')
-        tasks = Tasks.objects.get(task_id = task_id)
+        tasks = Tasks.objects.select_for_update().filter(task_id = task_id)
         #gets user info from api
         params = { 'oauth_token' : access_token }
         data = urllib.urlencode( params )
@@ -164,9 +164,8 @@ def accept_task(request):
         response = response.read( )
         user = json.loads( response )['response']['user']
         user_id = user['id']
-        executor = Grabber.objects.get(user_id = user_id)
-        tasks.update(executer = executor, status="Pending")
-        tasks.save()
+        executor = Grabber.objects.get(username = user_id)
+        tasks.update(executor = executor, status="Pending")
         return HttpResponse("Success")
     else:
         return HttpResponse("")
@@ -184,22 +183,34 @@ def finish_task(request):
     if request.is_ajax():
         #CHANGE STATUS OF TASK AND MAKE THE VENMO CALL HERE
         url ="https://venmo.com/api/v2/user/find"
-        client_id  = 1263
+        print "hello"
+        client_id  = "1263"
         client_secret = "E38tm2v8wfDsrSmyGn69w8SQnByceQKH"
-        twitter_screen_name = "arg_abhishek"
+        task_id = request.POST['task_id']
         params = { 'client_id' : client_id, 'client_secret' : client_secret }
         data = urllib.urlencode( params )
-        full_url = url + '?' + data
-        response = urllib2.urlopen( full_url )
+        temp_task = Tasks.objects.get(task_id = task_id)
+        executor = temp_task.executor
+        print executor.username
+        print temp_task
+        twitter_handle = executor.twitter
+        print twitter_handle
+        full_url = url + '?' + data + '&twitter_screen_names=' + twitter_handle
+        response = urllib2.urlopen(full_url)
         response = response.read()
-        venmo_name = json.loads( response )['data'][0]['username']
-        task_price = "5.00"
+        #venmo_name = json.loads( response )['data']['username']
+        venmo_name = 'Clara-Wu'
+        print venmo_name
+        task_price = temp_task.price
         payment_full_url = "https://venmo.com/" + venmo_name + "?txn=pay&amount=" + str(task_price)
-        urllib2.urlopen( payment_full_url)
-        executor = Grabber.objects.get(user_id = "mbuech")
-        tasks.update(executor = executor, status="Finished")
-        tasks.save()
-        return HttpResponse("Success")
+        urllib2.urlopen(payment_full_url)
+        executor = temp_task.executor
+        assigner = temp_task.assigner
+        executor = Grabber.objects.get(username= executor.username)
+        Tasks.objects.select_for_update().filter(assigner = assigner,executor = executor,status="Finished")
+        print "yolo"
+        print payment_full_url
+        return HttpResponse(payment_full_url)
     else:
         return HttpResponse("")
 
@@ -235,9 +246,8 @@ def twitter_handle(request):
         user = json.loads( response )['response']['user']
         name = user['firstName']
         user_id = user['id']
-        temp = Grabber.objects.get(username = user_id)
-        temp.twitter = twitter_handle
-        temp.save()
+        temp = Grabber.objects.select_for_update.filter(username = user_id)
+        temp.update(twitter = twitter_handle)
         return HttpResponseRedirect('/foursq_auth/done')
     else:
         return HttpResponse('')

@@ -3,11 +3,11 @@ $(document).ready(function() {
     var venue = $("#venue-id").val();
     console.log(venue);
     $.ajax({
-          url: "/foursq_auth/_checkin/",
+          url: "/foursq_auth/_add_task/",
           type: "POST",
           dataType: "json",
           data: {
-            'venue' : venue,
+            'task_id' : task_id
           },
           success: function(response) {
               console.log("hellod");
@@ -28,7 +28,8 @@ $(document).ready(function() {
               console.log("hello");
               var task_id = this.id;
               $theClickedObject = $(this);
-              $.post('/foursq_auth/_pending/', { task_id : task_id }).done(function(response) {
+              $.post('/foursq_auth/_finishtask/', { task_id : task_id }).done(function(response) {
+                console.log(response)
                 $theClickedObject.css( "background-color", "red" );
               });
               return false;
@@ -40,6 +41,3 @@ $(document).ready(function() {
       });
   });
  });
-
-
-
