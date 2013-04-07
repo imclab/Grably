@@ -1,28 +1,28 @@
 from app.models import *
 # Create your views here.
 def populate_db(request):
-    matt = Grabber(username="mbuech", venmo_key="null")
-    clara = Grabber(username="clara", venmo_key="null")
-    mano = Grabber(username="mano", venmo_key="null")
-    shek = Grabber(username="shek", venmo_key="null")
+    matt = Grabber(username="mbuech", venmo_key="null", twitter="buechlermatthew")
+    clara = Grabber(username="clara", venmo_key="null", twitter="s_clara_wu")
+    mano = Grabber(username="mano", venmo_key="null", twitter="manosaie")
+    shek = Grabber(username="shek", venmo_key="null", twitter="arg_abhishek")
     matt.save()
     clara.save()
     mano.save()
     shek.save()
     grocery_store = Tasks(task_id=1, task_title="Grocery Store", task_description="Grab an enlightened protein popsickle.",
-                          date="2013-04-05 12:12:12", price=25, assigner=matt, executor="null", 
+                          date="2013-04-05 12:12:12", price=25.50, assigner=matt, executor="null", 
                           status="open", location='44780b6cf964a520c3331fe3')
 
     textbook = Tasks(task_id=2, task_title="Stat textbook", task_description = "Can you kindly bring my stat textbook from Gregory to Huntsman?",
-                          date="2013-04-02 12:10:34", price=5, assigner=clara, executor=mano, status="closed",location="46f6d742f964a520f94a1fe3")
+                          date="2013-04-02 12:10:34", price=5.00, assigner=clara, executor=mano, status="closed",location="46f6d742f964a520f94a1fe3")
 
 
     nike = Tasks(task_id=3, task_title="Running Shoes", task_description="Please deliver some nice running shoes to Hamco",
-                    date="2013-04-01 10:10:34", price=80, assigner=shek, executor=matt,status="in_progress", location="4adb6fdff964a520742721e3")
+                    date="2013-04-01 10:10:34", price=80.00, assigner=shek, executor=matt,status="in_progress", location="4adb6fdff964a520742721e3")
 
 
     chickenrice = Tasks(task_id=4,task_title="Food delivery",task_description="Please deliver some chicken and rice to engineering",
-                date="2013-03-21 13:10:34", price=15, assigner=mano, executor="null",status="open",location="4b7c4814f964a52070892fe3")
+                date="2013-03-21 13:10:34", price=15.00, assigner=mano, executor="null",status="open",location="4b7c4814f964a52070892fe3")
 
     grocery_store.save()
     textbook.save()
