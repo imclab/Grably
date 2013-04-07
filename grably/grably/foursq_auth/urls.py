@@ -13,4 +13,5 @@ urlpatterns = patterns('foursq_auth.views',
     # main page once logged in
     url( r'^done/$', view=done, name='oauth_done' ),
     url(r'^tasks/$', view=edit_form, name='edit_tasks'),
+    url(r'^_add_task/$', view=create_task, name='add_task'),
 )
