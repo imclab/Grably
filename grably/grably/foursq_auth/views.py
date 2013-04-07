@@ -69,8 +69,10 @@ def done( request ):
     response = urllib2.urlopen( full_url )
     response = response.read( )
     user = json.loads( response )['response']['user']
-    name = user['firstName']
-
+    first_name = user['firstName']
+    user_id = user['id']
+    username = Grabber(username=user_id)
+    username.save()
     # show the page with the user's name to show they've logged in
     return render_to_response( 'foursq_auth/done.html', { 'name' : name } )
 
@@ -94,8 +96,69 @@ def create_checkin(request):
         req = urllib2.Request(url, data)
         tasks = Tasks.objects.filter(location = venue).values()
         return HttpResponse(json.dumps(tasks))
-    else {
+    else:
         return HttpResponse("Did not work")
-    }
 
-def create
+def create_task(request):
+    if request.is_ajax():
+        venue = request.POST['venue']
+        title = request.POST['title']
+        description = request.POST['description']
+        task_id = request.POST['id']
+        price = request.POST['price']
+        params = { 'oauth_token' : access_token }
+        data = urllib.urlencode( params )
+        url = 'https://api.foursquare.com/v2/users/self'
+        full_url = url + '?' + data
+        response = urllib2.urlopen( full_url )
+        response = response.read( )
+        user = json.loads( response )['response']['user']
+        user_id = user['id']
+        assigner = Grabber.objects.get(username = user_id)
+        if task_id == "empty"
+            new_task = Tasks(task_id = task_id, task_title = title,
+                             task_description=description, price = price,
+                             assigner = assigner, status = "Open",
+                             location = venue)
+            new_task.save()
+        else:
+            new_task = Tasks.objects.get(task_id = task_id)
+            new_task.update(task_title = title, task_description=description,
+                            price = price, location = venue)
+            new_task.save()
+        tasks = Tasks.objects.filter(assigner = user_id).values()
+        return HttpResponse(json.dumps(tasks))
+    else:
+        return HttpResponse("Error")
+
+def accept_task(request):
+    if request.is_ajax():
+        task_id = request.POST['task_id']
+        access_token = request.session.get('access_token')
+        tasks = Tasks.objects.get(task_id = task_id)
+        #gets user info from api
+        params = { 'oauth_token' : access_token }
+        data = urllib.urlencode( params )
+        url = 'https://api.foursquare.com/v2/users/self'
+        full_url = url + '?' + data
+        response = urllib2.urlopen( full_url )
+        response = response.read( )
+        user = json.loads( response )['response']['user']
+        user_id = user['id']
+        executor = Grabber.objects.get(user_id = user_id)
+        tasks.update(executer = executor, status="Pending)
+        tasks.save()
+        return HttpResponse("Success")
+    else:
+        return HttpResponse("")
+
+def delete_task(request):
+    if request_is_ajax():
+        task_id = request.POST['task_id']
+        tasks = Tasks.objects.get(task_id=task_id)
+        tasks.delete()
+        return HttpResponse("")
+
+def finish_task(request):
+    if request.is_ajax():
+        #CHANGE STATUS OF TASK AND MAKE THE VENMO CALL HERE

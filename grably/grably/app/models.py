@@ -20,5 +20,3 @@ class Friends(models.Model):
     friendee = models.ForeignKey(Grabber, related_name="friendee_id")
     status = models.CharField(max_length = 100)
 
-
-
