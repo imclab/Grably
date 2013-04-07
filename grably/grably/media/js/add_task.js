@@ -6,7 +6,7 @@ $(document).ready(function() {
     var task_id = "empty";
     var title_task = $("#title").val();
     $.ajax({
-          url: "/_photos_all",
+          url: "/foursq_auth/_add_task/",
           type: "POST",
           dataType: "json",
           data: {
