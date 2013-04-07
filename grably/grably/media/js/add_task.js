@@ -1,5 +1,6 @@
 $(document).ready(function() {
   $("#submit").click(function() {
+    var readable_location = $("#venue-name").val();
     var venue = $("#venue-id").val();
     var price = $("#price"). val();
     var description = $("#description").val();
@@ -15,6 +16,7 @@ $(document).ready(function() {
             'description' : description,
             'id' : task_id,
             'title' : title_task,
+            'readable_location' : readable_location,
           },
           success: function(response) {
             console.log(response);

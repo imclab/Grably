@@ -1,11 +1,20 @@
 <html>
     <head>
+    	<link rel="stylesheet" href="/media/css/Bootstrap.css">
+		<link rel="stylesheet" href="http://code.jquery.com/mobile/1.2.0/jquery.mobile.structure-1.2.0.min.css" />
+		<link rel="stylesheet" href="/media/css/jqm-icon-pack-1.1.1-fa.css">
+		<script src="http://code.jquery.com/jquery-1.8.2.min.js"></script>
+		<script src="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.js"></script>
         <title>Foursquare OAuth Example</title>
     </head>
     <body>
-    <div id="login">
-        <p>Sign in with Foursquare to begin.</p>
-        <p><a href="auth/">Login</a></p>
-    </div>
+    <div data-role="page" data-theme="a">
+		<div data-role="header" data-position="inline" data-theme="e">
+			<h1>Grably</h1>
+        </div>
+    	<div data-role="content" data-theme="a">
+    		<center> <img src = "/media/images/foursquare.png">
+			<a href="auth/" data-role="button" data-theme="e" data-icon="off" rel="external">Login</a>
+		</div>
     </body>
 </html>

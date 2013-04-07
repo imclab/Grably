@@ -15,6 +15,7 @@ class Tasks(models.Model):
     executor = models.ForeignKey(Grabber, related_name="executor_id", blank = True, null = True)
     status = models.CharField(max_length = 100)
     location = models.CharField(max_length = 100)
+    readable_location = models.CharField(max_length = 100)
 
 class Friends(models.Model):
     friender = models.ForeignKey(Grabber, related_name="friender_id")

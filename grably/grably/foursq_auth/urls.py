@@ -14,4 +14,5 @@ urlpatterns = patterns('foursq_auth.views',
     url( r'^done/$', view=done, name='oauth_done' ),
     url(r'^tasks/$', view=edit_form, name='edit_tasks'),
     url(r'^_add_task/$', view=create_task, name='add_task'),
+    url(r'^/_foursq_auth/twitter_handle/$', view=twitter_handle, name='get twitter handle'),
 )

@@ -64,11 +64,27 @@ menu, nav, section { display: block; }
 </style>
 </head>
 <body>
+  {% block content %}
+  <div class="task-list">
+    <ul>
+      {% for t in tasks %}
+        <li><div id="{{ t.task_id }}" class="task-item">
+          <h2>Task: {{ t.task_title }}</h2>
+          <h3>Location: {{ t.readable_location }}</h3> 
+          <h4>Price: {{ t.price }}</h4>
+          <p>Description: {{ t.description }}</p>
+          <p>Status: {{ t.status }}</p>
+        </div></li>
+      {% endfor %}
+    </ul>
+  </div>
+  {% end block content %}
     <div class="ui-widget">
         <input placeholder="Location" id="venue"/>
     </div>
     <div>
-        <input type="hidden" id="venue-id"/>
+      <input type="hidden" id="venue-id"/>
+       <input type="hidden" id="venue-name"/>
 	</div>
 
 <script>
@@ -106,7 +122,8 @@ menu, nav, section { display: block; }
             'oauth_token': "I5JIYKL5HIYYNAHK3RX24KNBVO4WARCAV4YJYD1MCTLFZTPI",
             'minLength': 3,
             'search': function (event, ui) {
-                $("#venue-id").val(ui.item.id);
+              $("#venue-id").val(ui.item.id);
+              $("#venue-name").val(ui.item.name);
                 $("#venue-icon").attr('src', ui.item.photo);
                 return false;
             },
