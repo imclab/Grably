@@ -66,19 +66,19 @@ menu, nav, section { display: block; }
 <body>
   {% block content %}
   <div class="task-list">
-    <ul>
+    <ul class="list">
       {% for t in tasks %}
         <li><div id="{{ t.task_id }}" class="task-item">
-          <h2>Task: {{ t.task_title }}</h2>
-          <h3>Location: {{ t.readable_location }}</h3> 
-          <h4>Price: {{ t.price }}</h4>
-          <p>Description: {{ t.description }}</p>
-          <p>Status: {{ t.status }}</p>
+          <h2 class="title_t">Task: {{ t.task_title }}</h2>
+          <h3 class="location_t">Location: {{ t.readable_location }}</h3> 
+          <h4 class="price_t">Price: {{ t.price }}</h4>
+          <p class="description_t">Description: {{ t.task_description }}</p>
+          <p class-"status_t">Status: {{ t.status }}</p>
         </div></li>
       {% endfor %}
     </ul>
   </div>
-  {% end block content %}
+  {% endblock %}
     <div class="ui-widget">
         <input placeholder="Location" id="venue"/>
     </div>
