@@ -119,7 +119,6 @@ def create_task(request):
         venue = request.POST['venue']
         title = request.POST['title']
         description = request.POST['description']
-        print description
         task_id = request.POST['id']
         price = request.POST['price']
         readable_location = request.POST['readable_location']
@@ -145,7 +144,7 @@ def create_task(request):
                             price = price, location = venue, readable_location = readable_location)
             new_task.save()
         tasks = Tasks.objects.filter(assigner = user_id)
-        data = serializers.serialize('json', tasks, fields=('task_id', 'task_title', 'readable_location', 'price', 'task_description', 'status'))
+        data = serializers.serialize('json', tasks)
         return HttpResponse(data)
     else:
         return HttpResponse("Error")
@@ -215,14 +214,15 @@ def edit_form (request):
     user_id = user['id']
     assigner = Grabber.objects.get(username = user_id)
     tasks = Tasks.objects.filter(assigner = user_id).values()
-    return render_to_response( 'foursq_auth/checkin.html', {'tasks' : tasks})
+    return render_to_response( 'foursq_auth/checkin.html', tasks = tasks)
 
-def twitter(request): 
-    return render_to_response('foursq_auth/twitter.html') 
+def twitter (request):
+    return render_to_response('foursq_auth/twitter.html')
 
 def twitter_handle(request):
     if request.method == 'POST':
         twitter_handle = request.POST['twitter_handle']
+        print twitter_handle
         # request user details from foursquare
         access_token = request.session.get('access_token')
         params = { 'oauth_token' : access_token }
