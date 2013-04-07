@@ -4,7 +4,7 @@ from django.db import models
 class Grabber(models.Model):
    username = models.CharField(max_length = 100) #check for this in the input
    venmo_key = models.CharField(max_length = 100)
-   twitter = models.CharField(max_length = 100)#tweeter handle 
+   twitter = models.CharField(max_length = 100, blank = True, null=True)#tweeter handle
 
 class Tasks(models.Model):
     task_id = models.AutoField(primary_key=True)
