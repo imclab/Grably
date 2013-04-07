@@ -173,3 +173,6 @@ def finish_task(request):
         return HttpResponse("")
     else:
         return HttpResponse("")
+
+def edit_form (request):
+    return render_to_response( 'foursq_auth/checkin.html' )
