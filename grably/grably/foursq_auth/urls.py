@@ -17,4 +17,6 @@ urlpatterns = patterns('foursq_auth.views',
     url(r'^checkin/$', view=checkin, name="checkin"),
     url(r'^_checkin/$', view=create_checkin, name='create_checkin'),
     url(r'^/_foursq_auth/twitter_handle/$', view=twitter_handle, name='get twitter handle'),
+    url(r'^twitter/$', view=twitter, name='get twitter handle'),
+    url(r'^process/$', view=twitter_handle)
 )
