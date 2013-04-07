@@ -152,6 +152,7 @@ def accept_task(request):
     else:
         return HttpResponse("")
 
+
 def delete_task(request):
     if request_is_ajax():
         task_id = request.POST['task_id']
@@ -159,6 +160,24 @@ def delete_task(request):
         tasks.delete()
         return HttpResponse("")
 
+
 def finish_task(request):
     if request.is_ajax():
         #CHANGE STATUS OF TASK AND MAKE THE VENMO CALL HERE
+        url ="https://venmo.com/api/v2/user/find"
+        client_id  = 1263
+        client_secret = "E38tm2v8wfDsrSmyGn69w8SQnByceQKH"
+        twitter_screen_name = "arg_abhishek"
+        params = { 'client_id' : client_id, 'client_secret' : client_secret }
+        data = urllib.urlencode( params )
+        full_url = url + '?' + data
+        response = urllib2.urlopen( full_url )
+        response = response.read()
+        venmo_name = json.loads( response )['data'][0]['username']
+        task_price = "5.00"
+        payment_full_url = "https://venmo.com/" + venmo_name + "?txn=pay&amount=" + str(task_price)
+        urllib2.urlopen( payment_full_url)
+        executor = Grabber.objects.get(user_id = "mbuech")
+        tasks.update(executor = executor, status="Finished")
+        tasks.save()
+        return HttpResponse("Success")
