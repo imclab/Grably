@@ -92,4 +92,10 @@ def create_checkin(request):
         }
         data = urllib.urlencode(values)
         req = urllib2.Request(url, data)
+        tasks = Tasks.objects.filter(location = venue).values()
+        return HttpResponse(json.dumps(tasks))
+    else {
+        return HttpResponse("Did not work")
+    }
 
+def create
