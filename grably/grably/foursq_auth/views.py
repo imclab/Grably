@@ -108,7 +108,7 @@ def create_checkin(request):
         data = urllib.urlencode(values)
         req = urllib2.Request(url, data)
         tasks = Tasks.objects.filter(location = venue)
-        ata = serializers.serialize('json', tasks)
+        data = serializers.serialize('json', tasks)
         return HttpResponse(data)
     else:
         return HttpResponse("Did not work")
@@ -217,8 +217,8 @@ def edit_form (request):
     tasks = Tasks.objects.filter(assigner = user_id).values()
     return render_to_response( 'foursq_auth/checkin.html', {'tasks' : tasks})
 
-def twitter(request): 
-    return render_to_response('foursq_auth/twitter.html') 
+def twitter(request):
+    return render_to_response('foursq_auth/twitter.html')
 
 def twitter_handle(request):
     if request.method == 'POST':
