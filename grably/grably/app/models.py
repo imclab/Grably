@@ -10,14 +10,14 @@ class Tasks(models.Model):
     task_title = models.CharField(max_length = 100)
     task_description = models.CharField(max_length = 1000)
     price = models.IntegerField(default = 0)
-    assigner = models.ForeignKey(Grabber)
-    executor = models.ForeignKey(Grabber)
+    assigner = models.ForeignKey(Grabber, related_name="assigner_id")
+    executor = models.ForeignKey(Grabber, related_name="executor_id")
     status = models.CharField(max_length = 100)
     location = models.IntegerField()
 
 class Friends(models.Model):
-    friender = models.ForeignKey(Grabber)
-    friendee = models.ForeignKey(Grabber)
+    friender = models.ForeignKey(Grabber, related_name="friender_id")
+    friendee = models.ForeignKey(Grabber, related_name="friendee_id")
     status = models.CharField(max_length = 100)
 
 
