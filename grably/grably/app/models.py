@@ -2,14 +2,8 @@ from django.db import models
 
 # Create your models here.
 class Grabber(models.Model):
-   username = models.CharField(max_length = 100) #check for this in the input
-<<<<<<< HEAD
-   venmo_key = models.CharField(max_length = 100)
+   username = models.CharField(max_length = 100, primary_key = True) #check for this in the input
    twitter = models.CharField(max_length = 100, blank = True, null=True)#tweeter handle
-=======
-   twitter = models.CharField(max_length = 100)#tweeter handle
->>>>>>> 3cffe8c3d2545c0bdd872773f71ebca05eb36e5a
-
 class Tasks(models.Model):
     task_id = models.AutoField(primary_key=True)
     task_title = models.CharField(max_length = 100)
