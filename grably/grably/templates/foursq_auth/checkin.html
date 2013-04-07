@@ -79,10 +79,37 @@ menu, nav, section { display: block; }
 	</div>
 
 <script>
-    $(function () {
+    var myLatitude; 
+    var myLongitude; 
+
+    window.load = getLocation();
+
+    function setLongLat(lat, lon) {
+        myLatitude = lat;
+        myLongitude = lon;
+    }
+
+    function getLocation() {
+        console.log("merr", navigator.geolocation);
+        if (navigator.geolocation)
+        {
+            navigator.geolocation.getCurrentPosition(function(position) {
+                setLongLat(position.coords.latitude, position.coords.longitude);
+                console.log(myLatitude); 
+                console.log(myLongitude); 
+            });
+        }
+        else{x.innerHTML="Geolocation is not supported by this browser.";}
+    }
+
+    function log(message) {
+        $("<div/>").text(message).prependTo("#log");
+        $("#log").scrollTop(0);
+    }
+        $('#venue').keyup(function() {
         $("#venue").foursquareAutocomplete({
-            'latitude': 40.672306,
-            'longitude': -74.025879,
+            'latitude': myLatitude,
+            'longitude': myLongitude, 
             'oauth_token': "I5JIYKL5HIYYNAHK3RX24KNBVO4WARCAV4YJYD1MCTLFZTPI",
             'minLength': 3,
             'search': function (event, ui) {
@@ -97,14 +124,10 @@ menu, nav, section { display: block; }
             	var message = "Foursquare Error: Code=" + errorCode + ", errorType= " + errorType + ", errorDetail= " + errorDetail;
             	log(message);
             }
-            
-        });
+            });
     });
-    function log(message) {
-        $("<div/>").text(message).prependTo("#log");
-        $("#log").scrollTop(0);
-    }
-</script>
+    
+    </script>
 
 <div class="ui-widget" style="margin-top:2em; font-family:Arial">
 	Result:
