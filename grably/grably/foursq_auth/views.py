@@ -194,4 +194,3 @@ def finish_task(request):
 
 def edit_form (request):
     return render_to_response( 'foursq_auth/checkin.html' )
->>>>>>> b4c8dbd5e819e1d80160836dc4dc8c575b00ef81
