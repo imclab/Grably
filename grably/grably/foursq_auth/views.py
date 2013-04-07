@@ -99,8 +99,7 @@ def get_auth(request):
 def create_checkin(request):
     if request.is_ajax():
         access_token = request.session.get('access_token')
-        print access_token
-        venue = request.POST['id']
+        venue = request.POST['venue']
         url= 'https://api.foursquare.com/v2/checkins/add'
         values = {
             'oauth_token' : access_token,
@@ -108,8 +107,9 @@ def create_checkin(request):
         }
         data = urllib.urlencode(values)
         req = urllib2.Request(url, data)
-        tasks = Tasks.objects.filter(location = venue).values()
-        return HttpResponse(json.dumps(tasks))
+        tasks = Tasks.objects.filter(location = venue)
+        ata = serializers.serialize('json', tasks)
+        return HttpResponse(data)
     else:
         return HttpResponse("Did not work")
 
@@ -238,4 +238,7 @@ def twitter_handle(request):
         return HttpResponseRedirect('done')
     else:
         return HttpResponse('')
+
+def checkin(request):
+    return render_to_response('foursq_auth/create_checkin.html')
 
