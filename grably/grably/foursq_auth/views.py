@@ -26,6 +26,8 @@ def main( request ):
     else:
         return render_to_response( 'foursq_auth/login.html' )
 
+
+
 def callback( request ):
     # get the code returned from foursquare
     code = request.GET.get('code')
@@ -56,6 +58,7 @@ def unauth( request ):
     logout( request )
     return HttpResponseRedirect( reverse( 'main' ) )
 
+
 def auth( request ):
     # build the url to request
     params = {'client_id' : CLIENT_ID,
@@ -84,6 +87,7 @@ def done( request ):
     username.save()
     # show the page with the user's name to show they've logged in
     return render_to_response( 'foursq_auth/done.html', { 'name' : name } )
+
 
 def get_auth(request):
     if request.is_ajax():
@@ -211,3 +215,26 @@ def edit_form (request):
     assigner = Grabber.objects.get(username = user_id)
     tasks = Tasks.objects.filter(assigner = user_id).values()
     return render_to_response( 'foursq_auth/checkin.html', tasks = tasks)
+
+def twitter_handle(request):
+    if request.method == 'POST':
+        twitter_handle = request.get('twitter_handle')
+        # request user details from foursquare
+        access_token = request.session.get('access_token')
+        params = { 'oauth_token' : access_token }
+        data = urllib.urlencode( params )
+        url = 'https://api.foursquare.com/v2/users/self'
+        full_url = url + '?' + data
+        print full_url
+        response = urllib2.urlopen( full_url )
+        response = response.read( )
+        user = json.loads( response )['response']['user']
+        name = user['firstName']
+        user_id = user['id']
+        temp = Grabber.objects.get(username = user_id)
+        temp.twitter = twitter_handle
+        temp.save()
+        return HttpResponseRedirect('done')
+    else:
+        return HttpResponse('')
+
