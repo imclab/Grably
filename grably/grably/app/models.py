@@ -14,7 +14,7 @@ class Tasks(models.Model):
     assigner = models.ForeignKey(Grabber, related_name="assigner_id")
     executor = models.ForeignKey(Grabber, related_name="executor_id")
     status = models.CharField(max_length = 100)
-    location = models.IntegerField()
+    location = models.CharField(max_length = 100)
 
 class Friends(models.Model):
     friender = models.ForeignKey(Grabber, related_name="friender_id")
