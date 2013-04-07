@@ -65,17 +65,10 @@ menu, nav, section { display: block; }
 </head>
 <body>
     <div class="ui-widget">
-        <label for="venue">Venue: </label>
-        <input id="venue"/>
+        <input placeholder="Location" id="venue"/>
     </div>
     <div>
         <input type="hidden" id="venue-id"/>
-        <div class="categoryIconContainer">
-            <img id="venue-icon" src="" class="ui-state-default" />    
-        </div>
-        <div id="venue-name" class="autocomplete-name"></div>
-        <div id="venue-address" class="autocomplete-detail"></div>
-		<div id="venue-cityLine" class="autocomplete-detail"></div>
 	</div>
 
 <script>
@@ -113,11 +106,8 @@ menu, nav, section { display: block; }
             'oauth_token': "I5JIYKL5HIYYNAHK3RX24KNBVO4WARCAV4YJYD1MCTLFZTPI",
             'minLength': 3,
             'search': function (event, ui) {
-                $("#venue-name").html(ui.item.name);
                 $("#venue-id").val(ui.item.id);
-                $("#venue-address").html(ui.item.address);
-                $("#venue-cityLine").html(ui.item.cityLine);
-                $("#venue-icon").attr("src", ui.item.photo);
+                $("#venue-icon").attr('src', ui.item.photo);
                 return false;
             },
             'onError' : function (errorCode, errorType, errorDetail) {
@@ -128,10 +118,16 @@ menu, nav, section { display: block; }
     });
     
     </script>
+<div class="form">
+    <input id="title" type="text" placeholder="Task"/>
+    <br/>
+    $<input id="price" type="text" placeholder="Price"/>
+    </br>
+    <textarea id="description" rows = "5" cols="50" placeholder="Description"></textarea>
+    <br/>
+    <input type="button" value="Submit" id="submit"/>
 
-<div class="ui-widget" style="margin-top:2em; font-family:Arial">
-	Result:
-	<div id="log" style="height: 200px; width: 300px; overflow: auto;" class="ui-widget-content"></div>
 </div>
 </body>
 </html>
+<script src="/media/js/add_task.js" type="text/javascript"></script>

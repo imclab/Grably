@@ -84,7 +84,7 @@ def done( request ):
     # show the page with the user's name to show they've logged in
     return render_to_response( 'foursq_auth/done.html', { 'name' : name } )
 
-def get_autih(request):
+def get_auth(request):
     if request.is_ajax():
         access_token = request.session.get('access_token')
         return HttpResponse(access_token)
