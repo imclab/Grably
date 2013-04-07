@@ -8,6 +8,7 @@ from django.core.urlresolvers import reverse
 from django.contrib.auth import logout
 from django.db.models import Q
 from django.http import HttpResponseRedirect
+from django.core import serializers
 
 from app.models import *
 from foursq_auth.models import *
@@ -94,6 +95,7 @@ def get_auth(request):
 def create_checkin(request):
     if request.is_ajax():
         access_token = request.session.get('access_token')
+        print access_token
         venue = request.POST['id']
         url= 'https://api.foursquare.com/v2/checkins/add'
         values = {
@@ -107,6 +109,7 @@ def create_checkin(request):
     else:
         return HttpResponse("Did not work")
 
+
 def create_task(request):
     if request.is_ajax():
         venue = request.POST['venue']
@@ -114,6 +117,7 @@ def create_task(request):
         description = request.POST['description']
         task_id = request.POST['id']
         price = request.POST['price']
+        access_token = request.session.get('access_token')
         params = { 'oauth_token' : access_token }
         data = urllib.urlencode( params )
         url = 'https://api.foursquare.com/v2/users/self'
@@ -124,7 +128,7 @@ def create_task(request):
         user_id = user['id']
         assigner = Grabber.objects.get(username = user_id)
         if task_id == "empty":
-            new_task = Tasks(task_id = task_id, task_title = title,
+            new_task = Tasks(task_title = title,
                              task_description=description, price = price,
                              assigner = assigner, status = "Open",
                              location = venue)
